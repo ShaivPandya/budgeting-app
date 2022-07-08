@@ -22,25 +22,24 @@ def login_page(request):
 
     # Only accepts POST requests
     if request.method == "POST":
-
         email = request.data.get("email")
         password = request.data.get("password")
-        # print(request.data)
+        print(request.data)
         # Authenticate the user's email and password
         user = authenticate(username=email, password=password)
         if user is None:
             user = User.objects.filter(email=email)
             if len(user) == 0:
-                return Response({'message': "Account does not exist"}, status = status.HTTP_404_NOT_FOUND)
+                return Response({'message': "Account does not exist"}, status=status.HTTP_404_NOT_FOUND)
             if not user[0].check_password(password):
-                return Response({'message': "Invalid password"}, status = status.HTTP_404_NOT_FOUND)
+                return Response({'message': "Invalid password"}, status=status.HTTP_404_NOT_FOUND)
         # Log the user in, creates a new JWT and saves it in the user's session
         auth_login(request, user)
         print(request.user.is_authenticated)
         JWT_Token = RefreshToken.for_user(user)
         request.user.refresh_token = str(JWT_Token)
         request.user.access_token = str(JWT_Token.access_token)
-        return Response({'email': email, 'refresh_token': request.user.refresh_token,\
+        return Response({'email': email, 'refresh_token': request.user.refresh_token,
                          'access_token': request.user.access_token})
     return Response({'message': "Login must take a POST request"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
@@ -54,12 +53,12 @@ def register_page(request):
 
     # Only accepts POST requests
     if request.method == 'POST':
-
+        print(request.data)
         email = request.data.get("email")
         password = request.data.get("password")
-        password2 = request.data.get('password2')
-        first_name = request.data.get("first_name")
-        last_name = request.data.get("last_name")
+        password2 = request.data.get('confirm')
+        first_name = request.data.get("firstname")
+        last_name = request.data.get("lastname")
 
         # If password and password confirmation matches
         if password == password2:
@@ -68,10 +67,9 @@ def register_page(request):
             try:
                 user.full_clean()
             except exceptions.ValidationError as err:
-                return Response(err.message_dict)
+                return Response({'message': "Request data is not correct"}, status=status.HTTP_404_NOT_FOUND)
 
             user = authenticate(username=email, password=password)
-
             # If no such user is found in the database
             if user is None and len(User.objects.filter(email=email)) == 0:
                 # Create a new user object and then logs them in
@@ -81,14 +79,15 @@ def register_page(request):
                 JWT_Token = RefreshToken.for_user(user)
                 request.user.refresh_token = str(JWT_Token)
                 request.user.access_token = str(JWT_Token.access_token)
-                return Response({'email': email, 'refresh_token': request.user.refresh_token,\
+
+                return Response({'email': email, 'refresh_token': request.user.refresh_token,
                                  'access_token': request.user.access_token})
             else:
-                return Response({'message': "An account with this email already exists."}, status = status.HTTP_404_NOT_FOUND)
+                return Response({'message': "An account with this email already exists."}, status=status.HTTP_404_NOT_FOUND)
         else:
-            return Response({'message': "Password confirmation does not match."}, status = status.HTTP_404_NOT_FOUND)
+            return Response({'message': "Password confirmation does not match."}, status=status.HTTP_404_NOT_FOUND)
 
-    return Response({'message': "Register must take a POST request."}, status = status.HTTP_405_METHOD_NOT_ALLOWED)
+    return Response({'message': "Register must take a POST request."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 
