@@ -36,13 +36,11 @@ class Link extends Component {
         <PlaidLink
           clientName="Plaid Quickstart"
           env="sandbox"
-          product={['auth', 'transactions']}
+          product={['transactions']}
           publicKey="716f1a504cda22791ca574fbcb4736"
           onExit={this.handleOnExit}
           onSuccess={this.handleOnSuccess}
           className="test"
-          countryCodes={['US']}
-          apiVersion="v2"
         >
           Open Link and connect your bank!
         </PlaidLink>

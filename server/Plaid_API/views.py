@@ -16,10 +16,10 @@ import os
 # Create your views here.
 
 PLAID_CLIENT_ID = '5e69b65f584f98001426e625'
-PLAID_SECRET = 'fb3902da2745d2ea1d60dd553fbb47'
+PLAID_SECRET = '4a91b824095bb42f8661a2906e82f0'
 PLAID_PUBLIC_KEY = '716f1a504cda22791ca574fbcb4736'
 
-PLAID_ENV = os.getenv('PLAID_ENV', 'sandbox')
+PLAID_ENV = os.getenv('PLAID_ENV', 'development')
 PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions')
 PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US,CA,GB,FR,ES')
 PLAID_OAUTH_REDIRECT_URL = os.getenv('PLAID_OAUTH_REDIRECT_URL', '')
@@ -32,15 +32,16 @@ client = plaid.Client(client_id=PLAID_CLIENT_ID, secret=PLAID_SECRET, public_key
 @csrf_exempt
 @api_view(['POST'])
 # These 2 decorators are for bypassing JWT token authentication for testing purposes
-# @authentication_classes([])
-# @permission_classes([])
+@authentication_classes([])
+@permission_classes([])
 def get_access_token(request):
-
+    """
     # Must provides the user's email
     email = request.data.get('email')
     if email is None:
-        return Response({'err': "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
-
+        return Response({'err': "Email not provided"}, status = status.HTTP_406_NOT_ACCEPTABLE)
+    """
+    email = "xtranx2@yahoo.com"
     body = json.loads(request.body)
     public_token = body['public_token']
     # Exchanges the public token for an access token
@@ -128,17 +129,18 @@ def get_access_token(request):
 @csrf_exempt
 @api_view(['GET'])
 # These 2 decorators are for bypassing JWT tokens for testing purposes
-# @authentication_classes([])
-# @permission_classes([])
+@authentication_classes([])
+@permission_classes([])
 # JSON Format is
 # [[account.name, account.type, account.balance, [transaction.name, transaction.category
 # # transaction.date, transaction.amount], ... more transactions]
 def get_transactions_of_each_account(request):
 
-    email = request.data.get("email")
-    if email is None:
-        return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    # email = request.data.get("email")
+    # if email is None:
+    #     return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    email = 'thn.trinity@gmail.com'
     user = User_Model.objects.filter(email=email)
     # If email is not found in database, error
     if user is None or len(user) == 0:
@@ -180,17 +182,18 @@ def get_transactions_of_each_account(request):
 @csrf_exempt
 @api_view(['GET'])
 # These 2 decorators are for bypassing JWT tokens for testing purposes
-# @authentication_classes([])
-# @permission_classes([])
+@authentication_classes([])
+@permission_classes([])
 # JSON FORMAT IS
 # [[transaction.name, transaction.category, transaction.date, transaction.amount],
 #   ... more transactions]
 def get_transactions(request):
 
-    email = request.data.get("email")
-    if email is None:
-        return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    # email = request.data.get("email")
+    # if email is None:
+    #     return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    email = 'thn.trinity@gmail.com'
     user = User_Model.objects.filter(email=email)
     # If email is not found in database, error
     if user is None or len(user) == 0:
@@ -219,10 +222,11 @@ def get_transactions(request):
 def net_worth(request):
 
     # Provide user's email or fail
-    email = request.data.get("email")
-    if email is None:
-        return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    # email = request.data.get("email")
+    # if email is None:
+    #     return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    email = 'thn.trinity@gmail.com'
     # If email is not found in database, fail
     user = User_Model.objects.filter(email=email)
     if user is None or len(user) == 0:
@@ -247,18 +251,19 @@ def net_worth(request):
 @csrf_exempt
 @api_view(['GET'])
 # The 2 decorators below are for bypassing JWT authentication for testing purposes
-# @authentication_classes([])
-# @permission_classes([])
+@authentication_classes([])
+@permission_classes([])
 # JSON Format is
 # [{'category': category_name, total: total_amount},
 #  {'category2': category2_name, total2: total2_amount}, ...]
 def category_expenses(request):
 
     # Provide user's email or fail
-    email = request.data.get("email")
-    if email is None:
-        return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    # email = request.data.get("email")
+    # if email is None:
+    #     return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    email = 'thn.trinity@gmail.com'
     # If email is not found in db, fail
     user = User_Model.objects.filter(email=email)
 
@@ -295,7 +300,7 @@ def bills(request):
     if email is None:
         return Response({"err": "Email not provided"}, status= status.HTTP_406_NOT_ACCEPTABLE)
     """
-    email = "xtranx2@yahoo.com"
+    email = 'thn.trinity@gmail.com'
     user = User_Model.objects.filter(email=email)
     # If email is not found in database, error
     if user is None or len(user) == 0:
@@ -326,14 +331,15 @@ def bills(request):
 @csrf_exempt
 @api_view(['GET'])
 # These 2 decorators are for bypassing JWT tokens for testing purposes
-# @authentication_classes([])
-# @permission_classes([])
+@authentication_classes([])
+@permission_classes([])
 def monthly_total_expenses(request):
 
-    email = request.data.get("email")
-    if email is None:
-        return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    # email = request.data.get("email")
+    # if email is None:
+    #     return Response({"err": "Email not provided"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    email = 'thn.trinity@gmail.com'
     user = User_Model.objects.filter(email=email)
     if user is None or len(user) == 0:
         return Response({"err": "User not found"}, status=status.HTTP_404_NOT_FOUND)
