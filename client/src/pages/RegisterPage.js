@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect, withRouter } from 'react-router-dom';
-import { Layout } from 'antd';
 
 import { register } from '../api/register.api';
-import Register from '../components/Register/Register.jsx';
+import Register from '../components/Register.jsx';
 import history from '../router/History';
 
 import './Pages.css';
@@ -15,7 +14,7 @@ class RegisterPage extends Component {
     console.log('Recieved values: ', e);
 
     this.props.register({
-      email: e.username,
+      email: e.email,
       password: e.password,
       confirm: e.confirm,
       firstname: e.firstname,
