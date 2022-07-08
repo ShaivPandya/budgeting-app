@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
+from django.conf.urls import url
+from django.http import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Redirects all url that starts with auth/ to urls contained in Authentication module
+    url(r'^auth/', include('Authentication.urls')),
+    url(r'^plaid/', include('Plaid_API.urls')),
 ]
