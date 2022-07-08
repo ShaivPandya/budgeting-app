@@ -17,10 +17,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BankAccounts',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('access_token', models.CharField(max_length=100)),
-                ('account_id', models.CharField(max_length=100)),
+                ('account_id', models.CharField(max_length=100, primary_key=True, serialize=False)),
+                ('type', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=255, null=True)),
+                ('balance', models.FloatField()),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Transactions',
+            fields=[
+                ('category', models.CharField(max_length=100)),
+                ('name', models.CharField(max_length=255, null=True)),
+                ('date', models.DateField()),
+                ('amount', models.FloatField()),
+                ('transaction_id', models.CharField(max_length=100, primary_key=True, serialize=False)),
+                ('account_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Plaid_API.BankAccounts')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Bill',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('amount', models.FloatField()),
+                ('due_date', models.DateField(blank=True, null=True)),
+                ('notified', models.BooleanField(default=False)),
+                ('account_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Plaid_API.BankAccounts')),
             ],
         ),
     ]
