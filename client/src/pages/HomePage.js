@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { USER_TOKEN } from '../constants';
 import { logout } from '../store/actions/auth.action';
 
-import Landing from '../components/Landing/Landing.jsx';
+import Landing from '../components/landing/Landing.jsx';
 import Home from '../components/Home';
 
 class HomePage extends Component {
@@ -17,7 +17,7 @@ class HomePage extends Component {
 
   render() {
     const user = this.props.user || {};
-    return user && user.token ? (
+    return user && user.access_token ? (
       <Home logout={e => this.onClick(e)} />
     ) : (
       <Landing />
