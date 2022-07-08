@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'Authentication',
+    'Plaid_API',
     'corsheaders',
 ]
 
@@ -63,7 +64,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 
 ]
-
 ROOT_URLCONF = 'server.urls'
 
 TEMPLATES = [
@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bills',
         'USER': 'root',
-        'PASSWORD': 'hellosql',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306',
     }
