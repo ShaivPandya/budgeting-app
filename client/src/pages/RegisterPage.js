@@ -11,8 +11,6 @@ import './Pages.css';
 
 class RegisterPage extends Component {
   onSubmission = e => {
-    console.log('Recieved values: ', e);
-
     this.props.register({
       email: e.email,
       password: e.password,
@@ -31,7 +29,7 @@ class RegisterPage extends Component {
     const { token } = user;
 
     return token ? (
-      <Redirect to="/" user={user} />
+      <Redirect to="/setup" user={user} />
     ) : (
       <Register onSubmission={e => this.onSubmission(e)} />
     );

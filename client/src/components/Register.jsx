@@ -5,7 +5,6 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const Register = props => {
   const onFinish = values => {
-    console.log('Sent values:', values);
     props.onSubmission(values);
   };
 
@@ -14,7 +13,7 @@ const Register = props => {
       <Link to="/" className="register-sign-up">
         <img src={require('../assets/logo.png')} alt="logo" />
       </Link>
-
+      <h2>Register</h2>
       <Form.Item
         name="email"
         hasFeedback
@@ -50,11 +49,11 @@ const Register = props => {
           { required: true, message: 'Please confirm your password!' },
           ({ getFieldValue }) => ({
             validator(rule, value) {
-              if (!value || getFieldValue('password') === value) {
+              if (!value || getFieldValue('password') === value)
                 return Promise.resolve();
-              }
+
               return Promise.reject(
-                'The two passwords that you entered do not match!'
+                new Error('The two passwords that you entered do not match!')
               );
             },
           }),
