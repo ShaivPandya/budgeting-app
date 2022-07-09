@@ -41,9 +41,6 @@ import {
   PLAID_MARK_NOTIFICATION_READ_URI,
 } from '../constants';
 
-// const token = localStorage.getItem(USER_TOKEN);
-// const config = { headers: { Authorization: `Bearer ${token}` } };
-
 // eslint-disable-next-line import/prefer-default-export
 export const plaidLogin = userData => dispatch => {
   const config = { headers: { Authorization: `Bearer ${userData.token}` } };
@@ -158,46 +155,37 @@ export const plaidGraphData = userData => dispatch => {
 
 export const changeBillDueDate = userData => dispatch => {
   const config = { headers: { Authorization: `Bearer ${userData.token}` } };
-  console.log('userData sent to change due date: ', userData);
   return axios
     .post(`${HOST}${PLAID_CHANGE_BILL_DUE_DATE_URI}`, userData, config)
     .then(res => {
-      console.log('res: ', res.data);
       dispatch(plaidBillUpdateSuccess(res.data));
     })
     .catch(err => {
-      console.log('err: ', err.response);
       dispatch(plaidBillUpdateFailed(err));
     });
 };
 
 export const getNotification = userData => async dispatch => {
   const config = { headers: { Authorization: `Bearer ${userData.token}` } };
-  console.log('userData sent to getNotification: ', userData);
   try {
     const { data } = await axios.get(
       `${HOST}${PLAID_GET_NOTIFICATIONS_URI}?email=${userData.email}`,
       config
     );
-    console.log('data: ', data);
     dispatch(plaidGetNotificationsSuccess(data));
   } catch (err) {
-    console.log('err: ', err.response);
     dispatch(plaidGetNotificationFailed(err));
   }
 };
 
 export const markNotificationAsRead = userData => dispatch => {
   const config = { headers: { Authorization: `Bearer ${userData.token}` } };
-  console.log('userData sent to markNotificationAsRead: ', userData);
   axios
     .post(`${HOST}${PLAID_MARK_NOTIFICATION_READ_URI}`, userData, config)
     .then(res => {
-      console.log('res: ', res.data);
       dispatch(plaidMarkNotificationReadSuccess(res.data));
     })
     .catch(err => {
-      console.log('err: ', err.response);
       dispatch(plaidMarkNotificationReadFailed(err));
     });
 };
