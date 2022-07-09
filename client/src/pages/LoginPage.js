@@ -18,6 +18,8 @@ const LoginPage = props => {
 
   const user = props.user || {};
   const { token, has_profile } = user;
+  console.log('user: ', user);
+  console.log('token: ', token);
 
   return token ? (
     has_profile ? (

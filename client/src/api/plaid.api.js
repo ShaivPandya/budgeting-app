@@ -32,6 +32,9 @@ import {
   PLAID_BILLS_URI,
   PLAID_GRAPH_DATA_URI,
   USER_TOKEN,
+  PLAID_CHECKING,
+  PLAID_SAVINGS,
+  PLAID_CREDIT_CARD,
   PLAID_MONTHLY_INCOME_URI,
   PLAID_BILLS_DATE_UPDATE,
 } from '../constants';
@@ -147,12 +150,49 @@ export const plaidBills = userData => dispatch => {
     });
 };
 
-export const plaidGraphData = userData => dispatch => {
+export const test = userData => dispatch => {
+  //   console.log('userData sent to plaidBills: ', userData);
+  const config = { headers: { Authorization: `Bearer ${userData.token}` } };
   axios
-    .get(`${HOST}${PLAID_GRAPH_DATA_URI}?email=${userData.email}`, config)
+    .get(`${HOST}/plaid/test/`, userData, config)
+    .then(res => {
+      //   console.log('res: ', res.data);
+      //   dispatch(plaidBillsSuccess(res.data));
+    })
+    .catch(err => {
+      console.log('err: ', err.response);
+      //   dispatch(plaidBillsFailed(err));
+    });
+};
+
+export const plaidGraphData = userData => dispatch => {
+  // const account_type = 'checking';
+  axios
+    .get(
+      `${HOST}${PLAID_GRAPH_DATA_URI}?email=${userData.email}&account_type=${userData.account_type}`,
+      config
+    )
     .then(res => {
       // console.log('res: ', res.data);
-      dispatch(plaidGraphDataSuccess(res.data));
+      switch (userData.account_type) {
+        case PLAID_CHECKING:
+          dispatch(
+            plaidGraphDataSuccess({ checking_data: res.data.graph_data })
+          );
+          break;
+        case PLAID_SAVINGS:
+          dispatch(
+            plaidGraphDataSuccess({ savings_data: res.data.graph_data })
+          );
+          break;
+        case PLAID_CREDIT_CARD:
+          dispatch(
+            plaidGraphDataSuccess({ credit_card_data: res.data.graph_data })
+          );
+          break;
+        default:
+          break;
+      }
     })
     .catch(err => {
       console.log('err: ', err.response);
@@ -162,6 +202,8 @@ export const plaidGraphData = userData => dispatch => {
 
 export const changeDueDate = userData => dispatch => {
   console.log('userData sent to change date: ', userData);
+  const config = { headers: { Authorization: `Bearer ${userData.token}` } };
+  console.log(config);
   axios
     .post(`${HOST}${PLAID_BILLS_DATE_UPDATE}`, userData, config)
     .then(res => {

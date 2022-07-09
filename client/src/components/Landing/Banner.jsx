@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import QueueAnim from 'rc-queue-anim';
 import { Button } from 'antd';
 import BannerImage from './BannerImage';
-import { USER_TOKEN } from '../../constants';
 
 class Banner extends React.PureComponent {
   static propTypes = {
@@ -15,7 +14,6 @@ class Banner extends React.PureComponent {
   };
   render() {
     const { className } = this.props;
-    const token = localStorage.getItem(USER_TOKEN);
     return (
       <div className={`home-layout-wrapper ${className}`}>
         <div className="home-layout">
@@ -41,31 +39,17 @@ class Banner extends React.PureComponent {
                   Sign up
                 </Button>
               </Link>
-              {token ? (
-                <Link to="/login">
-                  <Button
-                    type="primary"
-                    shape="round"
-                    onClick={() => {
-                      window.location.href = '/dashboard';
-                    }}
-                  >
-                    Dashboard
-                  </Button>
-                </Link>
-              ) : (
-                <Link to="/login">
-                  <Button
-                    type="primary"
-                    shape="round"
-                    onClick={() => {
-                      window.location.href = '/login';
-                    }}
-                  >
-                    Login
-                  </Button>
-                </Link>
-              )}
+              <Link to="/login">
+                <Button
+                  type="primary"
+                  shape="round"
+                  onClick={() => {
+                    window.location.href = '/login';
+                  }}
+                >
+                  Login
+                </Button>
+              </Link>
             </span>
           </QueueAnim>
           <div className={`${className}-image-wrapper`}>

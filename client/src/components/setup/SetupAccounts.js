@@ -54,6 +54,7 @@ const SetupAccounts = props => {
               product={PLAID_PRODUCT}
               publicKey={PLAID_PUlLIC_KEY}
               onSuccess={props.onSuccess}
+              //   onExit={this.onExit}
             >
               <PlusOutlined /> Connect with Plaid
             </PlaidLink>
