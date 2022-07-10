@@ -1,4 +1,7 @@
-<h1 align="center">Budgeter 💰</h1>
+<h1 align="center">Treasury</h1>
 
-A web application that helps user to conveniently monitor and control financial status and monthly spending.
+Smarter tools to monitor financial accounts.
 
+<p align="center">
+    <img src="./client/src/assets/home-page.png">
+</p>
