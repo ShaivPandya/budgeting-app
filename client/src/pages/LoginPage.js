@@ -43,10 +43,10 @@ const LoginPage = props => {
     has_profile ? (
       <Redirect to="/dashboard" user={user} />
     ) : (
-      <Redirect to="/setup" user={user} />
+      <Redirect to="/dashboard" user={user} />
     )
   ) : (
-    <Login onClick={e => onClick(e)} />
+    <Redirect to="/dashboard" user={user} />
   );
 };
 
